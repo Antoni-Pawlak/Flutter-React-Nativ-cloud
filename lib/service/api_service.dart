@@ -1,6 +1,9 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:ultranote_infinity/Constants.dart' as Constans;
+import 'package:ultranote_infinity/app_theme.dart';
 
 class ApiService {
   ApiService._internal();
@@ -89,6 +92,41 @@ class ApiService {
     var response = await post(Uri.parse(Constans.api + "twofacode/${token}"), body: json.encode(map),headers:{"content-type":"application/json"});
     return response;
   }
+
+  Future<dynamic> mywallet(String id) async {
+    var map = new Map<String, dynamic>();
+    map['id'] = id;
+    var response = await post(Uri.parse(Constans.api + "wallets/my-wallet"), body: json.encode(map),headers:{"content-type":"application/json"});
+    var  extractData= json.decode(response.body);
+    return extractData;
+  }
+
+  Future<dynamic> transactions(String xuni) async {
+    var response = await get(Uri.parse(Constans.api + "wallets/transactions/${xuni}"));
+    var  extractData= json.decode(response.body);
+    return extractData;
+  }
+
+  Future<dynamic> withdraw(String id,String sender, String recipient,String amount,String note,String paymentId) async {
+    var map = new Map<String, dynamic>();
+    map['id'] = id;
+    map['sender'] = sender;
+    map['recipient'] = recipient;
+    map['amount'] = amount;
+    map['note'] = note;
+    map['paymentId'] = paymentId;
+    var response = await post(Uri.parse(Constans.api + "wallets/transactions"), body: json.encode(map),headers:{"content-type":"application/json"});
+    return response;
+  }
+
+  Future<dynamic> createWallet(String id,String name) async {
+    var map = new Map<String, dynamic>();
+    map['id'] = id;
+    map['name'] = name;
+    var response = await post(Uri.parse(Constans.api + "wallets"), body: json.encode(map),headers:{"content-type":"application/json"});
+    return response;
+  }
+
 
 
 }
