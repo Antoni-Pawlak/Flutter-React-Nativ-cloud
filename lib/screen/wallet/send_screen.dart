@@ -73,12 +73,19 @@ class _SendScreenState extends State<SendScreen> with AutomaticKeepAliveClientMi
                       IconButton(
                         padding: EdgeInsets.all(4),
                         onPressed:(){
-                          Navigator.of(context)
-                              .push(
-                            new MaterialPageRoute(
-                                builder: (_) => new ScanQRCodeScreen()),
-                          )
-                              .then((val) => val ? setAddress() : null);
+
+                          FocusScope.of(context).requestFocus(FocusNode());
+                          Future.delayed(const Duration(milliseconds: 200), () {
+
+                            Navigator.of(context)
+                                .push(
+                              new MaterialPageRoute(
+                                  builder: (_) => new ScanQRCodeScreen()),
+                            )
+                                .then((val) => val ? setAddress() : null);
+
+                          });
+
                         }, icon: Icon(Icons.qr_code),color: Colors.white,),
                     ],
                   ),
@@ -161,13 +168,13 @@ class _SendScreenState extends State<SendScreen> with AutomaticKeepAliveClientMi
       return;
     }
 
-    if(paymentId.isEmpty){
-      showSnackBar(context,"Enter payment id");
+    if(amount.isEmpty){
+      showSnackBar(context,"Enter amount");
       return;
     }
 
-    if(amount.isEmpty){
-      showSnackBar(context,"Enter amount");
+    if(note.isEmpty){
+      showSnackBar(context,"Enter note");
       return;
     }
 
@@ -186,6 +193,7 @@ class _SendScreenState extends State<SendScreen> with AutomaticKeepAliveClientMi
         var extractData = json.decode(value.body);
         if(value.statusCode==200){
           showSnackBar(context,extractData['message'].toString());
+          Navigator.of(context).pushNamedAndRemoveUntil('/homescreen', (Route<dynamic> route) => false);
         }else{
           showSnackBar(context,extractData['message'].toString());
         }

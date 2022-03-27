@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ultranote_infinity/utils/utils.dart';
 
 import '../app_theme.dart';
 
@@ -46,7 +47,7 @@ class _ActivityLogState extends State<ActivityLog> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  widget.time,
+                  parseTime(widget.time),
                   style: CustomAppTheme.smallGreyText,
                   textAlign: TextAlign.end,
                 ),

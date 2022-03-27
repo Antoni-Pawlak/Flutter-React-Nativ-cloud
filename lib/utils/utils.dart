@@ -13,7 +13,7 @@ showSnackBar(BuildContext context, String msg) {
 String parseTime(String time) {
   final dateTime = DateTime.parse(time);
 
-  final format = DateFormat('dd MMM yyyy hh:mm:ss');
+  final format = DateFormat('dd MM yyyy hh:mm:ss aa');
   String clockString = format.format(dateTime);
   return clockString;
 }
